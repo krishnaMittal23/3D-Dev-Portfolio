@@ -11,10 +11,7 @@ const navItems = [
     name: "Projects",
     href: "#projects",
   },
-  {
-    name: "Testimonials",
-    href: "#testimonials",
-  },
+  
   {
     name: "Contact",
     href: "#contact",
@@ -22,26 +19,18 @@ const navItems = [
 ];
 
 const bentoSocialLinks = [
+  
   {
-    name: "Facebook",
-    href: "https://www.facebook.com/",
-    icon: "/images/fb.svg",
-  },
-  {
-    name: "Instagram",
-    href: "https://www.facebook.com/",
-    icon: "/images/insta.svg",
+    name: "Github",
+    href: "https://github.com/krishnaMittal23",
+    icon: "/images/github.svg",
   },
   {
     name: "LinkedIn",
-    href: "https://www.facebook.com/",
+    href: "https://www.linkedin.com/in/krishna-mittal-0b1964323/",
     icon: "/images/linkedin.svg",
   },
-  {
-    name: "WhatsApp",
-    href: "https://www.facebook.com/",
-    icon: "/images/whatsapp.svg",
-  },
+  
 ];
 
 const iconsList = [
@@ -90,39 +79,26 @@ const iconsList = [
 const slides = [
   {
     id: 1,
-    title: "Sofi",
-    img: "/images/p1.png",
+    title: "MediEase",
+    img: "/images/md.png",
   },
   {
     id: 2,
-    title: "Jasmina",
-    img: "/images/p2.png",
+    title: "BlogIt",
+    img: "/images/blog.png",
   },
   {
     id: 3,
-    title: "d.tampe",
-    img: "/images/p3.png",
+    title: "Job Portal",
+    img: "/images/jobportal.png",
   },
   {
     id: 4,
-    title: "Blimp.gr",
-    img: "/images/p4.png",
+    title: "AI Chatbot",
+    img: "/images/chatbot.png",
   },
-  {
-    id: 5,
-    title: "Hawk Style Design",
-    img: "/images/p5.png",
-  },
-  {
-    id: 6,
-    title: "Lewis",
-    img: "/images/p6.png",
-  },
-  {
-    id: 7,
-    title: "Sofi",
-    img: "/images/p1.png",
-  },
+  
+  
 ];
 
 const testimonials = [

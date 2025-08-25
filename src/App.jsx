@@ -13,7 +13,7 @@ import {
 
 const App = () => {
   return (
-    <div className="bg-black-100">
+    <div className="bg-black-100 ">
       <Loader />
       <NavBar />
       <Sidebar />
@@ -21,7 +21,7 @@ const App = () => {
       <About />
       <TechStack />
       <Projects />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Contact />
       <Footer />
     </div>

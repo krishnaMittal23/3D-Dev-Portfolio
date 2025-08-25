@@ -1,25 +1,27 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { slides } from "../constants";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = useRef(null);
 
+  const slideCount = slides.length;
+
+  // Handlers to cycle through slides properly
   const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % (slides.length - 1));
+    setCurrentSlide((prev) => (prev + 1) % slideCount);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prevSlide) => (prevSlide - 1 + (slides.length - 1)) % (slides.length - 1)
-    );
+    setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
   };
 
-  useGSAP(() => {
-    const tl = gsap.timeline();
+  // GSAP animation triggered on currentSlide change
+  useEffect(() => {
+    if (!sliderRef.current) return;
 
-    tl.to(".slider-item", {
+    gsap.to(sliderRef.current, {
       x: `-${currentSlide * 63}vw`,
       duration: 1,
       ease: "power2.inOut",
@@ -27,62 +29,80 @@ const Carousel = () => {
   }, [currentSlide]);
 
   return (
-    <div className="relative">
-      <div className="w-full relative lg:h-[60vh] md:h-[40vh] h-[60vh]">
-        <div className="carousel-gradient-left-box md:w-52 w-16 h-full absolute bottom-0 left-0 z-20"></div>
-        <div className="carousel-gradient-right-box md:w-52 w-16 h-full absolute bottom-0 right-0 z-20"></div>
-        <div className="absolute w-full -left-[43vw] top-0">
-          <div className="flex w-full lg:h-[60vh] md:h-[40vh] h-[60vh] items-center gap-[3vw]">
-            {slides.map((slide, index) => (
-              <div
-                className="slider-item w-[60vw] h-full flex-none relative"
-                key={index}
-              >
-                <img
-                  src={slide.img}
-                  alt="slide"
-                  className="w-full h-full object-cover object-center"
-                />
-                <div className="absolute w-full h-20 bottom-0 left-0 bg-black-300 bg-opacity-90 px-5">
-                  <div className="w-full h-full flex justify-between items-center">
-                    <div className="flex-center gap-2">
-                      <p className="md:text-2xl text-white-50 opacity-80">
-                        {index + 1}.
-                      </p>
-                      <p className="md:text-2xl text-white-50 opacity-80">
-                        {slide.title}
-                      </p>
-                    </div>
-                    <div className="flex-center gap-5">
-                      <p className="text-2xl hidden md:block text-white-50 opacity-80">
-                        Preview Project
-                      </p>
-                      <img
-                        src="/images/arrowupright.svg"
-                        alt="arrow"
-                        className="md:size-10 size-7"
-                      />
-                    </div>
-                  </div>
+    <div className="relative overflow-hidden">
+      {/* Carousel Container */}
+      <div className="relative lg:h-[60vh] md:h-[40vh] h-[60vh]">
+        {/* Gradient overlays */}
+        <div className="carousel-gradient-left-box md:w-52 w-16 h-full absolute bottom-0 left-0 z-20 pointer-events-none"></div>
+        <div className="carousel-gradient-right-box md:w-52 w-16 h-full absolute bottom-0 right-0 z-20 pointer-events-none"></div>
+
+        {/* Slider */}
+        <div
+          ref={sliderRef}
+          className="flex items-center gap-[3vw] transition-transform will-change-transform"
+          style={{ width: `${slideCount * 63}vw` }}
+        >
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className="slider-item w-[60vw] h-full flex-shrink-0 relative rounded-xl overflow-hidden shadow-lg"
+            >
+              <img
+                src={slide.img}
+                alt={slide.title}
+                className="w-full h-[60vh] object-cover object-center"
+              />
+              {/* Slide info overlay */}
+              <div className="absolute bottom-0 left-0 w-full h-20 bg-black bg-opacity-80 px-5 flex justify-between items-center text-white select-none">
+                <div className="flex items-center gap-2 font-semibold text-lg md:text-2xl opacity-90">
+                  <span>{index + 1}.</span>
+                  <span>{slide.title}</span>
+                </div>
+                <div className="flex items-center gap-3 cursor-pointer opacity-90 hover:opacity-100 transition-opacity">
+                  <span className="hidden md:block text-lg font-medium">
+                    Preview Project
+                  </span>
+                  <img
+                    src="/images/arrowupright.svg"
+                    alt="Preview arrow"
+                    className="w-6 h-6 md:w-8 md:h-8"
+                    draggable={false}
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-      <div className="mt-10 text-white-50 flex justify-end gap-5 md:-translate-x-32 -translate-x-5">
-        <div
+
+      {/* Navigation buttons */}
+      <div className="mt-10 flex justify-end gap-5">
+        <button
+          aria-label="Previous Slide"
           onClick={prevSlide}
-          className="rounded-full cursor-pointer bg-blue-50 hover:bg-pink-100 active:scale-90 transition-all w-12 h-12 flex-center"
+          className="rounded-full bg-blue-50 hover:bg-pink-100 active:scale-90 transition-transform w-12 h-12 flex-center shadow-md"
+          type="button"
         >
-          <img src="/images/CaretLeft.svg" alt="left" className="w-5 h-5" />
-        </div>
-        <div
+          <img
+            src="/images/CaretLeft.svg"
+            alt="Previous"
+            className="w-5 h-5 pointer-events-none"
+            draggable={false}
+          />
+        </button>
+        <button
+          aria-label="Next Slide"
           onClick={nextSlide}
-          className="rounded-full cursor-pointer bg-blue-50 hover:bg-pink-100 active:scale-90 transition-all w-12 h-12 flex-center"
+          className="rounded-full bg-blue-50 hover:bg-pink-100 active:scale-90 transition-transform w-12 h-12 flex-center shadow-md"
+          type="button"
         >
-          <img src="/images/CaretRight.svg" alt="Right" className="w-5 h-5" />
-        </div>
+          <img
+            src="/images/CaretRight.svg"
+            alt="Next"
+            className="w-5 h-5 pointer-events-none"
+            draggable={false}
+          />
+        </button>
       </div>
     </div>
   );

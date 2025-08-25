@@ -2,27 +2,26 @@ import { navItems } from "../constants";
 
 const NavBar = () => {
   return (
-    <div className="w-full flex-center fixed z-50 top-0 left-0 md:p-0 px-5">
-      <div className="container md:my-10 my-5 flex items-center justify-between">
-        <img
-          src="/images/logo.png"
-          alt="logo"
-          className="md:size-12 size-10 object-cover object-center"
-        />
-        <div className="md:flex items-center gap-7 hidden">
+    <div className="w-full fixed  z-50 backdrop-blur-md bg-black/40 ">
+      <div className="container mx-auto px-4 md:px-8 py-4 md:py-6 flex items-center justify-center">
+        <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item, index) => (
             <div
               key={index}
-              className="relative after:absolute after:bg-gray-200 after:bottom-0 after:left-0 after:h-[2px]
-               after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left
-                hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300"
+              className="relative group"
             >
-              <a className="gradient-title text-lg" href={item.href}>
+              <a
+                href={item.href}
+                className="gradient-title text-base md:text-lg font-medium transition-colors duration-300"
+              >
                 {item.name}
               </a>
+              <span
+                className="absolute left-0 -bottom-1 h-[2px] w-0 bg-white group-hover:w-full transition-all duration-300 ease-in-out"
+              ></span>
             </div>
           ))}
-        </div>
+        </nav>
       </div>
     </div>
   );
